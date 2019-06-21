@@ -15,7 +15,7 @@ Description on ports
 - 3000 : Grafana port
 
 # tutum InfluxDB
-There are several options to deploy influxDB but this docker image has admin UI and InfluxDB with it. 
+There are several options to deploy influxDB but this docker image has admin UI and InfluxDB with it. Note that local drive is mounted for backup and data transfer
 
 ```bash
 $ docker pull tutum/influxdb
