@@ -11,7 +11,7 @@ Visit [Grafana website](https://grafana.com/) for more information.
 $ docker pull grafana/grafana
 $ docker run -d -p 3000:3000 --name=grafana grafana/grafana
 ```
-Description on ports
+Description on ports.
 - 3000 : Grafana port
 
 # tutum InfluxDB
@@ -21,13 +21,15 @@ There are several options to deploy influxDB but this docker image has admin UI 
 $ docker pull tutum/influxdb
 $ docker run -d -p 8083:8083 -p 8086:8086 -v influxdb:/var/lib/influxdb tutum/influxdb:latest
 ```
-Description on ports
+Description on ports.
 - 8086 : HTTP API port
 - 8083 : WEB ADMIN UI port
 
-# Azure workbook
+# Azure runbook
+
 
 # Python monitoring agent
+
 ```bash
 Actual code please.
 ```

@@ -155,15 +155,15 @@ class Machine(object):
 
         cpu_info = {"cpu_usage": round(cpu_load["cpu"], 2)}
         # device_type = subprocess.check_output(['cat', '/sys/class/thermal/thermal_zone*/type']).decode("utf-8")
-        device_type = os.popen('cat /sys/class/thermal/thermal_zone*/type').readlines()
-        device_temperature = os.popen('cat /sys/class/thermal/thermal_zone*/temp').readlines()
-        cpu_temperature = 0
-        for idx, device in enumerate(device_type):
-            if str(device).startswith("x86_pkg"):
-                cpu_temperature = device_temperature[idx]
-                break
+        #device_type = os.popen('cat /sys/class/thermal/thermal_zone*/type').readlines()
+        #device_temperature = os.popen('cat /sys/class/thermal/thermal_zone*/temp').readlines()
+        #cpu_temperature = 0
+        #for idx, device in enumerate(device_type):
+        #    if str(device).startswith("x86_pkg"):
+        #        cpu_temperature = device_temperature[idx]
+        #        break
 
-        cpu_info["cpu_temperature"] = float(float(cpu_temperature) / 1000)
+        #cpu_info["cpu_temperature"] = float(float(cpu_temperature) / 1000)
 
         return cpu_info
 
