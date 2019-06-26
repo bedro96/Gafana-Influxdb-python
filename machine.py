@@ -1,3 +1,7 @@
+# Dependencies 
+# sudo apt install -y python3-pip ifstat sysstat
+# pip3 install influxdb
+
 import argparse
 import datetime
 import json

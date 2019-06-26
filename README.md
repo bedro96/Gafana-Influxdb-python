@@ -30,6 +30,12 @@ Description on ports.
 
 # Python monitoring agent
 
+Installing pip3 and 
+```bash
+sudo apt install -y python3-pip ifstat sysstat
+pip3 install influxdb
+```
+
 ```bash
 Actual code please.
 ```
