@@ -4,17 +4,7 @@ This repository is intended to help Azure users to gather information from Azure
 
 ## Installing required packages and components
 
-# Grafana
-Visit [Grafana website](https://grafana.com/) for more information.
-
-```bash
-$ docker pull grafana/grafana
-$ docker run -d -p 3000:3000 --name=grafana grafana/grafana
-```
-Description on ports.
-- 3000 : Grafana port
-
-# tutum InfluxDB
+### tutum InfluxDB
 There are several options to deploy influxDB but this docker image has admin UI and InfluxDB with it. Note that local drive is mounted for backup and data transfer
 
 ```bash
@@ -25,10 +15,7 @@ Description on ports.
 - 8086 : HTTP API port
 - 8083 : WEB ADMIN UI port
 
-# Azure runbook
-
-
-# Python monitoring agent
+### Python monitoring agent
 
 Installing pip3 and 
 ```bash
@@ -37,8 +24,37 @@ pip3 install influxdb
 ```
 
 ```bash
-Actual code please.
+python3 monitor.py 
 ```
+This should display all the meetering information from components in json format in console.
+
+```bash
+nohup python3 monitor.py --ip x.x.x.x &
+```
+To verify, make sure the process didn't exit and tail -f nohup.out to see output.
+
+### Grafana
+Visit [Grafana website](https://grafana.com/) for more information.
+
+```bash
+$ docker pull grafana/grafana
+$ docker run -d -p 3000:3000 --name=grafana grafana/grafana
+```
+Description on ports.
+- 3000 : Grafana port
+
+To setup monitoring
+
+```bash
+{
+"Name":"autotestvm",
+"ResourceGroup":"koreasouthrg"
+}
+```
+
+### Azure runbook
+
+
 
 # InfluxDB Backup and Restore
 
