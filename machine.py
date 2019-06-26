@@ -42,7 +42,7 @@ class Machine(object):
         try:
             whereis_nvidia_smi_path = str(whereis_nvidia_smi_cmd_output.split(" ")[1])
             nvidia_smi_output = [whereis_nvidia_smi_path, "--format=csv,noheader,nounits",
-                             "--query-gpu=uuid,index,name,memory.total,memory.used,memory.free,temperature.gpu"]
+                             "--query-gpu=uuid,index,name,memory.total,memory.used,memory.free,temperature.gpu,utilization.gpu"]
             gpu_data = str(subprocess.check_output(nvidia_smi_output).decode("utf-8")).split(os.linesep)
         except IndexError:
             pass
@@ -58,7 +58,8 @@ class Machine(object):
                              "gpu" + str(idx) + "_total_memory": int(gpu_value[3].strip()),
                              "gpu" + str(idx) + "_used_memory": int(gpu_value[4].strip()),
                              "gpu" + str(idx) + "_free_memory": int(gpu_value[5].strip()),
-                             "gpu" + str(idx) + "_temperature": float(gpu_value[6].strip())}
+                             "gpu" + str(idx) + "_temperature": float(gpu_value[6].strip()),
+                             "gpu" + str(idx) + "_gpu_utilization": float(gpu_value[7].strip())}
                 gpu_info.append(temp_info)
         return gpu_info
 
