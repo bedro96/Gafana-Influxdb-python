@@ -7,7 +7,7 @@ param
 # If runbook was called from Webhook, WebhookData will not be null.
 if ($WebhookData) {
  
-    # Check header for message to validate request
+    # Check User-Agent in the header to validate that the request is from Grafana.
     if ($WebhookData.RequestHeader.{User-Agent} -eq 'Grafana')
     {
         Write-Output "Header.User-Agent has required information"}
@@ -17,11 +17,10 @@ if ($WebhookData) {
         exit;
     }
 
-    # Retrieve VM's from Webhook request body
+    # Retrieve a list of VM from Webhook request body written in json format in message field.
     $vms = (ConvertFrom-Json -InputObject (ConvertFrom-Json -InputObject $WebhookData.RequestBody).message)
 
     # Authenticate to Azure by using the service principal and certificate. Then, set the subscription.
-
     Write-Output "Authenticating to Azure with service principal and certificate"
     $ConnectionAssetName = "AzureRunAsConnection"
     Write-Output "Get connection asset: $ConnectionAssetName"
