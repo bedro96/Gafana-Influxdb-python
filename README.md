@@ -60,7 +60,7 @@ To verify that the process up and running and tail -f nohup.out to see output.
 
 1. Create an [Automation account](https://docs.microsoft.com/en-us/azure/automation/automation-quickstart-create-account#create-automation-account) in your subscription.
 
-
+2. 
 
 
 # InfluxDB Backup and Restore
