@@ -97,6 +97,8 @@ During my investigation, variables in alert wasn't supported from Grafana at the
 }
 ```
 
+Sample dashboard could be found [here](http://bastionvm.koreacentral.cloudapp.azure.com:3000/d/jpxDO27Zz/first-dashboard?orgId=1&refresh=5s).
+
 ## InfluxDB Backup and Restore
 
 * Backup 
