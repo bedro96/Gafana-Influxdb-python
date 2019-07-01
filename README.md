@@ -58,7 +58,7 @@ To verify that the process up and running and tail -f nohup.out to see output.
 
 ### Azure runbook
 
-1. Create an [Automation account](https://docs.microsoft.com/en-us/azure/automation/automation-quickstart-create-account#create-automation-account){:target="_blank"} in your subscription.
+1. Create an [Automation account](https://docs.microsoft.com/en-us/azure/automation/automation-quickstart-create-account#create-automation-account) in your subscription.
 
 
 
