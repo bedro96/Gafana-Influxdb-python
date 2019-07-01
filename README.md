@@ -64,7 +64,11 @@ To verify that the process up and running and tail -f nohup.out to see output.
 
    ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/WebhookForShutdown.PNG)
 
+3. Edit, paste from [workbook.ps1](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/workbook.ps1), save and publish.
 
+4. Create a webhook. Give a name and please take a note of the url generated. 
+No need to specify anything for the parameters and just click OK and create.
+ 
 # InfluxDB Backup and Restore
 
 * Backup 
