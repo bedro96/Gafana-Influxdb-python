@@ -54,19 +54,7 @@ To run agent in the background, execute with following command.
 ```bash
 nohup python3 machine.py --ip IP_ADDRESS_OF_INFLUXDB & 
 ```
-
-```bash
-python3 python3 machine.py 
-```
-
-This should display all the meetering information from components in json format in console.
-
-```bash
-nohup python3 monitor.py --ip x.x.x.x &
-```
-To verify, make sure the process didn't exit and tail -f nohup.out to see output.
-
-
+To verify that the process up and running and tail -f nohup.out to see output.
 
 ### Azure runbook
 
