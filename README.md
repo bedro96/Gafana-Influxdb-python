@@ -15,6 +15,45 @@ Following are description on ports.
 - 8086 : HTTP API port
 - 8083 : WEB ADMIN UI port
 
+### Python monitoring agent
+Installing pip3, ifstat and sysstat as dependencies on the system where we're going to pull metrics.
+Note that InfluxDB has no authentication setup to receive monitoring data.
+```bash
+sudo apt install -y python3-pip ifstat sysstat
+pip3 install influxdb
+```
+With the dependencies installed, run following command to test monitoring agent.
+This should display all monitored components in json format on every 5 seconds.
+Please run python3 machine.py --help to find out the parameters for setting up credentials on connections, 
+how to relax monitoring interval, and how to disable console logging.
+```bash
+python3 machine.py
+```
+
+To run agent in the background, execute with following command.
+```bash
+nohup python3 machine.py --ip IP_ADDRESS_OF_INFLUXDB & 
+```
+To verify that the process is up and running with parent PID is not your session PID, 
+```bash
+ps -ef | grep -i python  
+tail -f nohup.out
+``` 
+to see console output in real time.
+
+### Azure runbook
+
+1. Create an [Automation account](https://docs.microsoft.com/en-us/azure/automation/automation-quickstart-create-account#create-automation-account) in your subscription.
+
+2. Create a PowerShell Runbook.
+
+   ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/WebhookForShutdown.PNG)
+
+3. Edit, paste from [workbook.ps1](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/workbook.ps1), save and publish.
+
+4. Create a webhook. Give a name and please take a note of the url generated. 
+No need to specify anything for the parameters and just click OK and create.
+
 ### Grafana
 Visit [Grafana website](https://grafana.com/) for more information. 
 
@@ -53,47 +92,12 @@ During my investigation, variables in alert wasn't supported from Grafana at the
 
 ```bash
 {
-"Name":"autotestvm",
-"ResourceGroup":"koreasouthrg"
+"Name":"gputestvm01",
+"ResourceGroup":"gpuvmrg"
 }
 ```
 
-### Python monitoring agent
-
-Installing pip3, ifstat and sysstat as dependencies on the system where we're going to pull metrics.
-Note that InfluxDB has no authentication setup to receive monitoring data.
-```bash
-sudo apt install -y python3-pip ifstat sysstat
-pip3 install influxdb
-```
-With the dependencies installed, run following command to test monitoring agent.
-This should display all monitored components in json format on every 5 seconds.
-Please run python3 machine.py --help to find out the parameters for setting up credentials on connections, 
-how to relax monitoring interval, and how to disable console logging.
-```bash
-python3 machine.py
-```
-
-To run agent in the background, execute with following command.
-```bash
-nohup python3 machine.py --ip IP_ADDRESS_OF_INFLUXDB & 
-```
-To verify that the process up and running and tail -f nohup.out to see output.
-
-### Azure runbook
-
-1. Create an [Automation account](https://docs.microsoft.com/en-us/azure/automation/automation-quickstart-create-account#create-automation-account) in your subscription.
-
-2. Create a PowerShell Runbook.
-
-   ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/WebhookForShutdown.PNG)
-
-3. Edit, paste from [workbook.ps1](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/workbook.ps1), save and publish.
-
-4. Create a webhook. Give a name and please take a note of the url generated. 
-No need to specify anything for the parameters and just click OK and create.
-
-# InfluxDB Backup and Restore
+## InfluxDB Backup and Restore
 
 * Backup 
 Please specify the database name in backup command.
