@@ -29,12 +29,26 @@ The initial username and password is admin/admin.
 Once logged in follow the guidline to create a dashboard.
 To configure InfluxDB as data source, uncheck everything for AUTH and put machine_information as Databasename.
 Once you have the data source configured, it would be very intuitive to create generic panels in dashboard, 
-which will be omitted in thie article. We are going to up right into how to setup alerting.  
-First we need to configure a notification channels in Alerting. 
+which will be omitted in this article. We are going to up jump right into how to setup alerting.  
+
+First we need to configure a notification channel in Alerting. 
 
 ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/notificationchannel.PNG)
+Note that "Include image" is unchecked and "Disable Resolve Message" is also unchecked. 
+For webhook URL, no credential is provided but user-agent header and contents of POST have to match in order to trigger the Stop command against the virtual machine. 
 
-To setup monitoring
+Now that we have notification channel established, we can setup an alert on GPU monitoring panel.
+The sample query is taken from a machine with 2 GPUs installed. Note that you have to monitor for each
+GPU installed and we are going to monitor GPU memory consumption rather than GPU utilization. 
+
+![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/query.PNG)
+
+Here's the screenshot of actual alert.
+
+![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/alert.PNG)
+
+On the contents of the POST body, name and resource group must be specified in json format. 
+During my investigation, variables in alert wasn't supported from Grafana at the time of writing this article.
 
 ```bash
 {
