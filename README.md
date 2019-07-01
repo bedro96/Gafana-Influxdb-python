@@ -62,7 +62,7 @@ To verify that the process up and running and tail -f nohup.out to see output.
 
 2. Create a PowerShell Runbook.
 
- ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/WebhookForShutdown.PNG)
+   ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/WebhookForShutdown.PNG)
 
 
 # InfluxDB Backup and Restore
