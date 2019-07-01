@@ -34,6 +34,7 @@ which will be omitted in this article. We are going to up jump right into how to
 First we need to configure a notification channel in Alerting. 
 
 ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/notificationchannel.PNG)
+
 Note that "Include image" is unchecked and "Disable Resolve Message" is also unchecked. 
 For webhook URL, no credential is provided but user-agent header and contents of POST have to match in order to trigger the Stop command against the virtual machine. 
 
