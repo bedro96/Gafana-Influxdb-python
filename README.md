@@ -25,6 +25,15 @@ $ docker run -d -p 3000:3000 --name=grafana grafana/grafana
 Following are description on ports.
 - 3000 : Grafana port
 
+The initial username and password is admin/admin. 
+Once logged in follow the guidline to create a dashboard.
+To configure InfluxDB as data source, uncheck everything for AUTH and put machine_information as Databasename.
+Once you have the data source configured, it would be very intuitive to create generic panels in dashboard, 
+which will be omitted in thie article. We are going to up right into how to setup alerting.  
+First we need to notification channels in Alerting. 
+
+![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/notificationchannel.PNG)
+
 To setup monitoring
 
 ```bash
@@ -68,7 +77,7 @@ To verify that the process up and running and tail -f nohup.out to see output.
 
 4. Create a webhook. Give a name and please take a note of the url generated. 
 No need to specify anything for the parameters and just click OK and create.
- 
+
 # InfluxDB Backup and Restore
 
 * Backup 
