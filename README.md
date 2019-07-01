@@ -30,7 +30,7 @@ Once logged in follow the guidline to create a dashboard.
 To configure InfluxDB as data source, uncheck everything for AUTH and put machine_information as Databasename.
 Once you have the data source configured, it would be very intuitive to create generic panels in dashboard, 
 which will be omitted in thie article. We are going to up right into how to setup alerting.  
-First we need to notification channels in Alerting. 
+First we need to configure a notification channels in Alerting. 
 
 ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/notificationchannel.PNG)
 
