@@ -44,8 +44,8 @@ pip3 install influxdb
 ```
 With the dependencies installed, run following command to test monitoring agent.
 This should display all monitored components in json format on every 5 seconds.
-Please run python3 machine.py --help to find out how to set credentials for connections, 
-to relax monitoring interval, and disable console logging.
+Please run python3 machine.py --help to find out the parameters for setting up credentials on connections, 
+how to relax monitoring interval, and how to disable console logging.
 ```bash
 python3 machine.py
 ```
