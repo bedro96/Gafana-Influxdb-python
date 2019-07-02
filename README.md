@@ -1,11 +1,10 @@
 # Grafana-Influxdb-python
-This repository is intended to help Azure users to gather information from Azure Compute and trigger an action against the VM. We are going to implement an agent written in python, which will send telemetric data to influxdb. From influxdb, Grafana will be leaveraged as visualization tool. Grafana will monitor basic components like cpu, memory, disk iops and network, and also can monitor special components like GPU utilization. Grafana also provide sophisticated alerting mechanism, where the message could be propagated to diverse messaging system. For this demonstation, the message will be delivered to an Azure workbook with webhook, which will stop the Azure compute.
+This repository is intended to help Azure users to gather information from Azure Compute and trigger an action against the VM. We are going to implement an agent written in python, which will send telemetric data to InfluxDB. From influxdb, Grafana will be leaveraged as visualization tool. Grafana will monitor basic components like cpu, memory, disk iops and network, and also can monitor special components like Nvidia GPU. Grafana also provide sophisticated alerting mechanism, where the message could be propagated to diverse messaging systems. For this demonstation, the message will be delivered to an Azure runbook with webhook, which will stop the Azure compute when GPU is idle.
  
-
 ## Installing required packages and components
 
 ### tutum InfluxDB
-There are several options to deploy influxDB but this docker image has admin UI and InfluxDB with it. Note that local drive is mounted for backup and data transfer.
+There are several options to deploy influxDB and I have chosen this docker image since it has admin UI and InfluxDB altogether. Note that local drive is mounted for backup and data transfer.
 
 ```bash
 $ docker pull tutum/influxdb
@@ -23,7 +22,7 @@ sudo apt install -y python3-pip ifstat sysstat
 pip3 install influxdb
 ```
 With the dependencies installed, run following command to test monitoring agent.
-This should display all monitored components in json format on every 5 seconds.
+This should display all monitored components in json format every 5 seconds.
 Please run python3 machine.py --help to find out the parameters for setting up credentials on connections, 
 how to relax monitoring interval, and how to disable console logging.
 ```bash
@@ -83,8 +82,7 @@ GPU installed and we are going to monitor GPU memory consumption rather than GPU
 
 ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/query.PNG)
 
-Here's the screenshot of actual alert.
-
+Here's the screenshot of actual alert. s
 ![alt text](https://raw.githubusercontent.com/AzureLGPod/Grafana-Influxdb-python/master/img/alert.PNG)
 
 On the contents of the POST body, name and resource group must be specified in json format. 
