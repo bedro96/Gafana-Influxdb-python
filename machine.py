@@ -24,7 +24,7 @@ class Machine(object):
         self.database = database
 
     def machine_information(self):
-        info = os.popen('uname -a').readlines()[-1].split()[0:]
+        info = os.popen('uname -a').readlines()[-1].split()[:]
         socket_instance = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             socket_instance.connect(('192.0.0.8', 1027))
@@ -32,12 +32,11 @@ class Machine(object):
         except socket.error:
             ip_address = "OffLine"
 
-        machine_info = {
+        return {
             "machine_os_platform": info[0],
             "machine_name": info[1],
-            "machine_ip_address": ip_address
+            "machine_ip_address": ip_address,
         }
-        return machine_info
 
     def get_gpu_infomation(self):
         whereis_nvidia_smi_cmd = [r"whereis", "nvidia-smi"]
@@ -50,50 +49,46 @@ class Machine(object):
             gpu_data = str(subprocess.check_output(nvidia_smi_output).decode("utf-8")).split(os.linesep)
         except IndexError:
             pass
-        
+
         # gpu_data = r'GPU-fbce4a93-3a20-a778-aa32-4b396f8df6d8, 0, GeForce GTX 1080 Ti, 11172, 10, 11162, 35', r'GPU-5fa30715-d37c-d266-0f11-e76c147b809a, 1, GeForce GTX 1080 Ti, 11171, 4547, 6624, 43', ''
         gpu_info = []
         for idx, data in enumerate(gpu_data):
             gpu_value = data.split(",")
             if len(gpu_value) > 1:
-                temp_info = {"gpu" + str(idx) + "_uuid": gpu_value[0].strip(),
-                             "gpu" + str(idx) + "_index_id": gpu_value[1].strip(),
-                             "gpu" + str(idx) + "_name": gpu_value[2].strip(),
-                             "gpu" + str(idx) + "_total_memory": int(gpu_value[3].strip()),
-                             "gpu" + str(idx) + "_used_memory": int(gpu_value[4].strip()),
-                             "gpu" + str(idx) + "_free_memory": int(gpu_value[5].strip()),
-                             "gpu" + str(idx) + "_temperature": float(gpu_value[6].strip()),
-                             "gpu" + str(idx) + "_gpu_utilization": float(gpu_value[7].strip())}
+                temp_info = {
+                    f"gpu{str(idx)}_uuid": gpu_value[0].strip(),
+                    f"gpu{str(idx)}_index_id": gpu_value[1].strip(),
+                    f"gpu{str(idx)}_name": gpu_value[2].strip(),
+                    f"gpu{str(idx)}_total_memory": int(gpu_value[3].strip()),
+                    f"gpu{str(idx)}_used_memory": int(gpu_value[4].strip()),
+                    f"gpu{str(idx)}_free_memory": int(gpu_value[5].strip()),
+                    f"gpu{str(idx)}_temperature": float(gpu_value[6].strip()),
+                    f"gpu{str(idx)}_gpu_utilization": float(gpu_value[7].strip()),
+                }
                 gpu_info.append(temp_info)
         return gpu_info
 
     def memory_information(self):
         memory_total, memory_used, memory_free = map(int, os.popen('free -t -m').readlines()[-1].split()[1:])
-        memory_info = {
+        return {
             "memory_total": memory_total,
             "memory_used": memory_used,
-            "memory_free": memory_free
+            "memory_free": memory_free,
         }
-        return memory_info
 
     def network_information(self):
         network_in_KB, network_out_KB = map(float, os.popen('ifstat -t -i eth0 1 1').readlines()[-1].split()[1:])
-        network_info = {
-            "network_in_KB": network_in_KB,
-            "network_out_KB": network_out_KB
-        }
-        return network_info
+        return {"network_in_KB": network_in_KB, "network_out_KB": network_out_KB}
     
     def disk_information(self):
         disk_read_per_sec, disk_write_per_sec, disk_read_KB_per_sec, disk_write_KB_per_sec = \
-            map(float, os.popen('iostat -xtc 5 1 | grep ^sda').readlines()[-1].split()[3:7])
-        diskio_info = {
-            "disk_read_ps" : disk_read_per_sec,
-            "disk_write_ps" : disk_write_per_sec,
-            "disk_read_KB_ps" : disk_read_KB_per_sec,
-            "disk_write_KB_ps" : disk_write_KB_per_sec  
+                map(float, os.popen('iostat -xtc 5 1 | grep ^sda').readlines()[-1].split()[3:7])
+        return {
+            "disk_read_ps": disk_read_per_sec,
+            "disk_write_ps": disk_write_per_sec,
+            "disk_read_KB_ps": disk_read_KB_per_sec,
+            "disk_write_KB_ps": disk_write_KB_per_sec,
         }
-        return diskio_info
 
     def get_cpu_status(self):
         # http://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux
@@ -138,7 +133,7 @@ class Machine(object):
 
                 Total = Idle + NonIdle
                 # update dictionionary
-                cpu_infos.update({cpu_id: {"total": Total, "idle": Idle}})
+                cpu_infos[cpu_id] = {"total": Total, "idle": Idle}
             return cpu_infos
 
     def cpu_infomation(self):
@@ -156,21 +151,9 @@ class Machine(object):
             Idle = stop[cpu]["idle"]
             PrevIdle = start[cpu]["idle"]
             CPU_Percentage = ((Total - PrevTotal) - (Idle - PrevIdle)) / (Total - PrevTotal) * 100
-            cpu_load.update({cpu: CPU_Percentage})
+            cpu_load[cpu] = CPU_Percentage
 
-        cpu_info = {"cpu_usage": round(cpu_load["cpu"], 2)}
-        # device_type = subprocess.check_output(['cat', '/sys/class/thermal/thermal_zone*/type']).decode("utf-8")
-        #device_type = os.popen('cat /sys/class/thermal/thermal_zone*/type').readlines()
-        #device_temperature = os.popen('cat /sys/class/thermal/thermal_zone*/temp').readlines()
-        #cpu_temperature = 0
-        #for idx, device in enumerate(device_type):
-        #    if str(device).startswith("x86_pkg"):
-        #        cpu_temperature = device_temperature[idx]
-        #        break
-
-        #cpu_info["cpu_temperature"] = float(float(cpu_temperature) / 1000)
-
-        return cpu_info
+        return {"cpu_usage": round(cpu_load["cpu"], 2)}
 
     def influxdbInsertData(self, server_info):
 
@@ -193,12 +176,8 @@ class Machine(object):
         network = server_info["network"]
         disk = server_info["disk"]
 
-        fields_data = {}
-        tags_data = {}
-        for data in dict(machine.items()):
-            tags_data[data] = machine[data].strip()
-        for data in dict(cpu.items()):
-            fields_data[data] = cpu[data]
+        tags_data = {data: machine[data].strip() for data in dict(machine.items())}
+        fields_data = {data: cpu[data] for data in dict(cpu.items())}
         for data in dict(memory.items()):
             fields_data[data] = memory[data]
         for idx, list in enumerate(gpu):
@@ -211,23 +190,10 @@ class Machine(object):
 
         tags_data = json.dumps(tags_data)
         fields_data = json.dumps(fields_data)
-        # print(tags_data)
-        # print(fields_data)
-        # now = datetime.datetime.today()
-        # print(now)
-        points = []
-        point = {"measurement": 'machine_information',
-                 # "time": now.strftime('%Y-%m-%d %H:%M:%S'),
-                 # "time": 1000000000 * int(now.strftime('%s')),
-                 # "time": int(round(time.time() * 1000)),
-                 # "fields": fields_data
-                 }
-        point["tags"] = json.loads(tags_data)
+        point = {"measurement": 'machine_information', "tags": json.loads(tags_data)}
         point["fields"] = json.loads(fields_data)
 
-        # pprint.pprint(point)
-        points.append(point)
-
+        points = [point]
         if self.isValidIP(self.host_ip):
             ret = client.write_points(points)
             # print("DB 입력 결과 : [" + str(ret) + "]")
@@ -241,7 +207,7 @@ class Machine(object):
     def print_satus(self, server_info):
         os.system('cls' if os.name == 'nt' else 'clear')
         print("-" *80)
-        print("TIME : ", datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
+        print("TIME : ", datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         print("-" *80)
         pprint.pprint(server_info)
         print("-" *80)
